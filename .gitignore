@@ -1,0 +1,15 @@
+# Dependências instaladas com NPM
+/node_modules
+
+# Arquivos gerados pelo ambiente de desenvolvimento
+/.idea
+.vscode
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Arquivos gerados pelo build
+/dist
+/out
+/.next
