@@ -10,7 +10,7 @@ const spotifyApi = new SpotifyWebApi({
 spotifyApi.clientCredentialsGrant()
     .then(data => {
         spotifyApi.setAccessToken(data.body.access_token);
-        console.log('Cliente autenticado com sucesso!');
+        // console.log('Cliente autenticado com sucesso!');
     })
     .catch(error => {
         console.log('Erro ao autenticar o cliente:', error);
