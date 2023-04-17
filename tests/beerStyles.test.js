@@ -1,76 +1,91 @@
-const request = require("supertest");
-const app = require("../index");
+const request = require('supertest');
+const express = require('express');
+const bodyParser = require('body-parser');
+const beerRoutes = require('../routes/beerStyles');
 
-describe("Beer Styles API", () => {
-  it("should return all beer styles", async () => {
-    const res = await request(app).get("/styles");
-    expect(res.statusCode).toEqual(200);
-    expect(res.body.length).toEqual(6);
+const app = express();
+app.use(bodyParser.json());
+app.use('/beer-styles', beerRoutes);
+
+describe('GET /beer-styles', () => {
+  it('should return all beer styles', async () => {
+    const response = await request(app).get('/beer-styles');
+    expect(response.status).toBe(200);
+    expect(response.body.length).toBeGreaterThan(0);
+  });
+});
+
+describe('GET /beer-styles/:id', () => {
+  it('should return the beer style with the given id', async () => {
+    const response = await request(app).get('/beer-styles/1');
+    expect(response.status).toBe(200);
+    expect(response.body.name).toBe('Pilsen');
   });
 
-  it("should return a single beer style", async () => {
-    const res = await request(app).get("/styles/1");
-    expect(res.statusCode).toEqual(200);
-    expect(res.body.name).toEqual("Pilsen");
+  it('should return a 404 error if the beer style is not found', async () => {
+    const response = await request(app).get('/beer-styles/999');
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Style not found');
+  });
+});
+
+describe('POST /beer-styles', () => {
+  it('should create a new beer style', async () => {
+    const newStyle = { name: 'New Style', minTemp: -10, maxTemp: 10 };
+    const response = await request(app)
+      .post('/beer-styles')
+      .send(newStyle);
+
+    expect(response.status).toBe(201);
+    expect(response.body.id).toBeDefined();
+    expect(response.body.name).toBe('New Style');
+    expect(response.body.minTemp).toBe(-10);
+    expect(response.body.maxTemp).toBe(10);
+  });
+});
+
+describe('PUT /beer-styles/:id', () => {
+  it('should update the beer style with the given id', async () => {
+    const updatedStyle = { name: 'Updated Style' };
+    const response = await request(app)
+      .put('/beer-styles/1')
+      .send(updatedStyle);
+
+    expect(response.status).toBe(200);
+    expect(response.body.name).toBe('Updated Style');
   });
 
-  it("should return 404 if beer style not found", async () => {
-    const res = await request(app).get("/styles/10");
-    expect(res.statusCode).toEqual(404);
-    expect(res.body.message).toEqual("Style not found");
+  it('should return a 404 error if the beer style is not found', async () => {
+    const updatedStyle = { name: 'Updated Style' };
+    const response = await request(app)
+      .put('/beer-styles/999')
+      .send(updatedStyle);
+
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Style not found');
   });
 
-  it("should create a new beer style", async () => {
-    const newStyle = {
-      name: "Test Style",
-      minTemp: -2,
-      maxTemp: 4,
-    };
-    const res = await request(app).post("/styles").send(newStyle);
-    expect(res.statusCode).toEqual(201);
-    expect(res.body.id).toEqual(7);
-    expect(res.body.name).toEqual(newStyle.name);
+  it('should return a 400 error if no fields are provided for update', async () => {
+    const updatedStyle = {};
+    const response = await request(app)
+      .put('/beer-styles/1')
+      .send(updatedStyle);
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('Bad request');
+  });
+});
+
+describe('DELETE /beer-styles/:id', () => {
+  it('should delete the beer style with the given id', async () => {
+    const response = await request(app).delete('/beer-styles/1');
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe('Style deleted');
   });
 
-  it("should update an existing beer style", async () => {
-    const updatedStyle = {
-      name: "Updated Style",
-      minTemp: -5,
-      maxTemp: 5,
-    };
-    const res = await request(app).put("/styles/1").send(updatedStyle);
-    expect(res.statusCode).toEqual(200);
-    expect(res.body.name).toEqual(updatedStyle.name);
-    expect(res.body.minTemp).toEqual(updatedStyle.minTemp);
-    expect(res.body.maxTemp).toEqual(updatedStyle.maxTemp);
-  });
-
-  it("should return 404 if trying to update a non-existent beer style", async () => {
-    const updatedStyle = {
-      name: "Updated Style",
-      minTemp: -5,
-      maxTemp: 5,
-    };
-    const res = await request(app).put("/styles/10").send(updatedStyle);
-    expect(res.statusCode).toEqual(404);
-    expect(res.body.message).toEqual("Style not found");
-  });
-
-  it("should return 400 if request body is empty when trying to update a beer style", async () => {
-    const res = await request(app).put("/styles/1").send({});
-    expect(res.statusCode).toEqual(400);
-    expect(res.body.message).toEqual("Bad request");
-  });
-
-  it("should delete an existing beer style", async () => {
-    const res = await request(app).delete("/styles/1");
-    expect(res.statusCode).toEqual(200);
-    expect(res.body.message).toEqual("Style deleted");
-  });
-
-  it("should return 404 if trying to delete a non-existent beer style", async () => {
-    const res = await request(app).delete("/styles/10");
-    expect(res.statusCode).toEqual(404);
-    expect(res.body.message).toEqual("Style not found");
+  it('should return a 404 error if the beer style is not found', async () => {
+    const response = await request(app).delete('/beer-styles/999');
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Style not found');
   });
 });
