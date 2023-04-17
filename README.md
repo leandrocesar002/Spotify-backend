@@ -14,12 +14,14 @@ npm start
 
 O servidor será iniciado e estará disponível em http://localhost:3000.
 
-**Como usar**
+**Como usar:**
 Faça uma requisição POST para http://localhost:3000 com um payload contendo a temperatura desejada, no formato abaixo:
 
 {
   "temperature": 8
 }
+
+
 O servidor irá retornar um objeto JSON contendo o estilo de cerveja mais adequado para a temperatura e a playlist correspondente, no formato abaixo:
 
 {
