@@ -9,7 +9,7 @@ cd Spotify-backend
 **Instale as dependências:**
 npm install
 
-Inicie o servidor:
+**Inicie o servidor:**
 npm start
 
 O servidor será iniciado e estará disponível em http://localhost:3000.
