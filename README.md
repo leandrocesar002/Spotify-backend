@@ -48,5 +48,5 @@ O servidor irá retornar um objeto JSON contendo o estilo de cerveja mais adequa
 ```
 
 
-Licença
-Este projeto está licenciado sob a licença MIT - consulte o arquivo LICENSE para obter detalhes.
+
+**Este projeto está licenciado sob a licença MIT - consulte o arquivo LICENSE para obter detalhes.**
