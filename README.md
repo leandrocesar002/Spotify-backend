@@ -6,7 +6,7 @@ git clone https://github.com/leandrocesar002/Spotify-backend.git
 Navegue para a pasta do projeto:
 cd Spotify-backend
 
-Instale as dependências:
+**Instale as dependências:**
 npm install
 
 Inicie o servidor:
