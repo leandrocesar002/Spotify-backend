@@ -1,9 +1,20 @@
-Como executar
+A aplicação Spotify-backend é uma API que permite ao usuário receber sugestões de playlists do Spotify de acordo com a temperatura informada. Através da temperatura informada, a API retorna uma sugestão de estilo de cerveja e uma playlist relacionada a esse estilo, e tambem conta com um crud local para fazer algumas alterações de put delete update e create na sua base de cervejaria 
 
-Clone o repositório do projeto em sua máquina:
+A API utiliza a biblioteca Spotify Web API para buscar playlists do Spotify e manipular as informações recebidas, além de utilizar a biblioteca Express para criar a API em Node.js.
+
+
+
+A aplicação utiliza variáveis de ambiente para as credenciais do Spotify, e possui um script que permite a execução local do servidor.
+
+**O projeto está em deploy na plataforma https://render.com na seguinte URL https://spotify-backend-full.onrender.com, todas as requisições podem ser feitas atraves dele, mas caso queira rodar localmente irei deixar um passo a passo abaixo.**
+
+
+**Como executar**
+
+**Clone o repositório do projeto em sua máquina:**
 git clone https://github.com/leandrocesar002/Spotify-backend.git
 
-Navegue para a pasta do projeto:
+**Navegue para a pasta do projeto:**
 cd Spotify-backend
 
 **Instale as dependências:**
